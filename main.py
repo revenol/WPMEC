@@ -17,10 +17,10 @@
 #  |      weighted sum computation rate    |    output_obj         |
 #  -----------------------------------------------------------------
 #
-#  Output: 
+#  Output:
 #    - Training Time: the time cost to train 18,000 independent data samples
 #    - Testing Time: the time cost to compute predicted 6,000 computing mode
-#    - Test Accuracy: the accuracy of the predicted mode selection. Please note that the mode selection accuracy is different from computation rate accuracy, since two different computing modes may leads to similar weighted sum computation rates. From our experience, the accuracy of weighted sum computation rate (evaluated as DNN/CD) is higher than the accuracy of computing mode selection. 
+#    - Test Accuracy: the accuracy of the predicted mode selection. Please note that the mode selection accuracy is different from computation rate accuracy, since two different computing modes may leads to similar weighted sum computation rates. From our experience, the accuracy of weighted sum computation rate (evaluated as DNN/CD) is higher than the accuracy of computing mode selection.
 #    - ./data/weights_biases.mat: parameters of the trained DNN, which are used to re-produce this trained DNN in MATLAB.
 #    - ./data/Prediction_#.mat
 #    Besides the test data samples, it also includes the predicted mode selection. Given DNN-predicted mode selection, the corresponding optimal weighted sum computation rate can be computed by solving (P1) in [1], which achieves over 99.9% of the CD method [2].
@@ -38,12 +38,12 @@
 #  [1] Suzhi Bi, Liang Huang, Shengli Zhang, and Ying-jun Angela Zhang, Deep Neural Network for Computation Rate Maximization in Wireless Powered Mobile-Edge Computing Systems, submitted to IEEE Wireless Communications Letters.
 #  [2] S. Bi and Y. J. Zhang, “Computation rate maximization for wireless powered mobile-edge computing with binary computation ofﬂoading,” submitted for publication, available on-line at arxiv.org/abs/1708.08810.
 #
-# version 1.0 -- January 2018. Written by Liang Huang (lianghuang AT zjut.edu.cnm)
+# version 1.0 -- January 2018. Written by Liang Huang (lianghuang AT zjut.edu.cn)
 #  #################################################################
 
 import scipy.io as sio                     # import scipy.io for .mat file I/
 import numpy as np                         # import numpy
-import function_dnn_resource_allocation as dnn     # import our function file
+import dnn_wpmec as dnn     # import our function file
 
 
 K = 30                     # number of users

@@ -57,9 +57,8 @@ offloading_time = sio.loadmat('./data/data_%d' %K)['output_tau']
 gain = sio.loadmat('./data/data_%d' %K)['output_obj']
 
 # pre-process data
-#offloading_time[offloading_time == 0]=-1
 offloading_time = mode
-channel = channel * 10000000
+channel = channel * 10000000 # the wireless channel gain is too small, which is scaled up for better training performance.
 
 # train:validation:test = 60:20:20
 split_idx = [int(.6*len(channel)), int(.8*len(channel))]
@@ -73,8 +72,6 @@ gain_train, gain_valid, gain_test = np.split(gain, split_idx)
 model_location = "./DNNmodel/model_demo.ckpt"
 save_name="./data/Prediction_%d" % K
 
-#open the tensorboard or not
-tensorboard_sw=0
 #export the weights and biases or not
 export_weight_biase_sw=1
 
@@ -94,8 +91,8 @@ print('Case: K=%d, Total Samples: %d, Total Iterations: %d, layers:%d\n'%(K, len
 
 # Train the deep neural network
 print('train DNN ...')
-dnn.DNN_train(net,X_train, Y_train, X_valid, Y_valid,model_location,tensorboard_sw,export_weight_biase_sw,regularizer,training_epochs,batch_size,LR,in_keep,hi_keep,LRdecay)
+dnn.DNN_train(net,X_train, Y_train, X_valid, Y_valid,model_location,export_weight_biase_sw,regularizer,training_epochs,batch_size,LR,in_keep,hi_keep,LRdecay)
 
 # Testing Deep Neural Networks
-dnntime, Y_pred = dnn.DNN_test(net,X_test, Y_test, gain_test, model_location,save_name, tensorboard_sw,binary=1)
+dnntime, Y_pred = dnn.DNN_test(net,X_test, Y_test, gain_test, model_location,save_name,binary=1)
 print('Testing Time: %0.3f s' % (dnntime))

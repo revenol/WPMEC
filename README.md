@@ -30,4 +30,4 @@ A brief manual on how to install tensorflow and related packages is provided in 
 
 ## How the code works
 
-run the file, main.py
+run the file, [main.py](main.py)

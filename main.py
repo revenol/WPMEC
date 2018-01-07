@@ -60,11 +60,10 @@ gain = sio.loadmat('./data/data_%d' %K)['output_obj']
 offloading_time = mode
 channel = channel * 10000000 # the wireless channel gain is too small, which is scaled up for better training performance.
 
-# train:validation:test = 60:20:20
+# split the data samples, train:validation:test = 60:20:20
 split_idx = [int(.6*len(channel)), int(.8*len(channel))]
 X_train, X_valid, X_test = np.split(channel, split_idx)
 mode_train, mode_valid, mode_test = np.split(mode, split_idx)
-harvesting_time_train, harvesting_time_valid, harvesting_time_test = np.split(harvesting_time, split_idx)
 Y_train, Y_valid, Y_test = np.split(offloading_time, split_idx)
 gain_train, gain_valid, gain_test = np.split(gain, split_idx)
 
@@ -93,6 +92,6 @@ print('Case: K=%d, Total Samples: %d, Total Iterations: %d, layers:%d\n'%(K, len
 print('train DNN ...')
 dnn.DNN_train(net,X_train, Y_train, X_valid, Y_valid,model_location,export_weight_biase_sw,regularizer,training_epochs,batch_size,LR,in_keep,hi_keep,LRdecay)
 
-# Testing Deep Neural Networks
+# Test Deep Neural Networks
 dnntime, Y_pred = dnn.DNN_test(net,X_test, Y_test, gain_test, model_location,save_name,binary=1)
 print('Testing Time: %0.3f s' % (dnntime))

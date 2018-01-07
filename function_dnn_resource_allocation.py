@@ -1,11 +1,11 @@
-# ###############################################
-# This file includes functions to perform the WMMSE algorithm [2].
-# Codes have been tested successfully on Python 3.6.0 with Numpy 1.12.0 support.
+#  #################################################################
+#  This file contains the DNN code for our works on Wireless-powered Mobile Edge Computing [1], which includes training and testing functions.
 #
-# References: [1]
-
-# version 1.0 -- September 2017. Written by REVENOL (REVENOL AT outlook.com)
-# ###############################################
+#  References:
+#  [1] Suzhi Bi, Liang Huang, Shengli Zhang, and Ying-jun Angela Zhang, Deep Neural Network for Computation Rate Maximization in Wireless Powered Mobile-Edge Computing Systems, submitted to IEEE Wireless Communications Letters.
+#
+# version 1.0 -- January 2018. Written by Liang Huang (lianghuang AT zjut.edu.cnm)
+#  #################################################################
 
 from __future__ import print_function
 import tensorflow as tf
@@ -114,7 +114,7 @@ def DNN_train(net,X_train,Y_train,X_valid,Y_valid,model_location,tensorboard_sw=
     
     init = tf.global_variables_initializer()
     saver = tf.train.Saver()
-    MSETime=np.zeros((training_epochs,3))
+
     with tf.Session() as sess:
         sess.run(init)
         start_time = time.time()
@@ -141,13 +141,7 @@ def DNN_train(net,X_train,Y_train,X_valid,Y_valid,model_location,tensorboard_sw=
                 writer.add_summary(result,epoch)                                                
     
     
-            MSETime[epoch, 0]= c
-            MSETime[epoch, 1]= sess.run(cost, feed_dict={x: X_valid, y: Y_valid, input_keep_prob: 1, hidden_keep_prob: 1, is_train: False})
-            MSETime[epoch, 2]= time.time() - start_time
-          
-
             if epoch%10==0:
-#                print('epoch:%d, '%epoch, 'train:%0.2f%%, '%(c*100), 'validation:%0.2f%%.'%(MSETime[epoch, 1]*100))
                 accu, y_valid = sess.run([accuracy, pred], feed_dict={x: X_valid, y: Y_valid, input_keep_prob: 1, hidden_keep_prob: 1, is_train: False})
 
                 print('epoch:%d, '%epoch, 'train:%0.4f'%accuracy.eval({x: X_train, y: Y_train, input_keep_prob: 1, hidden_keep_prob: 1, is_train: False}), 'tcost:%0.4f'%cost.eval({x: X_train, y: Y_train, input_keep_prob: 1, hidden_keep_prob: 1, is_train: False}),'validation:%0.4f:'%accuracy.eval({x: X_valid, y: Y_valid, input_keep_prob: 1, hidden_keep_prob: 1, is_train: False}),'vcost:%0.4f:'%cost.eval({x: X_valid, y: Y_valid, input_keep_prob: 1, hidden_keep_prob: 1, is_train: False}))
@@ -167,8 +161,8 @@ def DNN_train(net,X_train,Y_train,X_valid,Y_valid,model_location,tensorboard_sw=
             
             sio.savemat('weights_biases',WB)
         
-        print("training time: %0.2f s" % (time.time() - start_time))
-        sio.savemat('MSETime_%d_%d_%d' % (n_output, batch_size, LR*10000) , {'train': MSETime[:,0], 'validation': MSETime[:,1], 'time': MSETime[:,2]})
+        print("Training Time: %0.2f s" % (time.time() - start_time))
+
         saver.save(sess, model_location)
     
     return 0
@@ -248,18 +242,15 @@ def DNN_test(net,X_test, Y_test, gain, model_location, save_name,tensorboard_sw=
         y_pred = sess.run(pred, feed_dict={x: X_test, input_keep_prob: 1, hidden_keep_prob: 1, is_train: False})
         
         testtime = time.time() - start_time
-        print("testing time: %0.2f s" % testtime)
 
         if binary==1:
             print('Test Accuracy:', accuracy.eval({x: X_test, y: Y_test, input_keep_prob: 1, hidden_keep_prob: 1, is_train: False}))
- #           print(ww)
-#            print(bb)
+
             y_pred = tf.sigmoid(y_pred)
             y_pred = tf.greater(y_pred, 0.5)
             y_pred = tf.cast(y_pred, tf.int32)
-#            print(y_pred.eval())
+
             y_pred = y_pred.eval()
-#            y_pred[y_pred >= 0.5] = 1
-#            y_pred[y_pred < 0.5] = 0
-        sio.savemat(save_name, {'h': X_test/10000000,'y':Y_test,'pred': y_pred,'gain_y':gain})
+
+        sio.savemat(save_name, {'input_h': X_test/10000000,'output_mode':Y_test,'output_mode_pred': y_pred,'output_obj':gain})
     return testtime, y_pred

@@ -19,15 +19,16 @@ Python code to reproduce our works on Wireless-powered Mobile Edge Computing [1]
 
 ## About our works
 
-1. Suzhi Bi, Liang Huang, Shengli Zhang, and Ying-jun Angela Zhang, **Deep Neural Network for Computation Rate Maximization in Wireless Powered Mobile-Edge Computing Systems**, submitted to *IEEE Wireless Communications Letters*.
+Please refer to our recent advantages in this topic as released at [DROO](https://github.com/revenol/DROO). Specifically, a Reinforcement learning-based online algorithm, [DROO](https://github.com/revenol/DROO), is proposed to maximize the weighted compuation rate in Wireless Powered Mobile-Edge Computing Networks. Numerical results show that the proposed algorithm can achieve near-optimal performance while signiﬁcantly decreasing the computation time by more than an order of magnitude compared with existing optimization methods. For example, the CPU execution latency of DROO is less than 0.1 second in a 30-user network, making real-time and optimal ofﬂoading truly viable even in a fast fading environment.
+
+1. Liang Huang, Suzhi Bi, and Ying-jun Angela Zhang, "Deep Reinforcement Learning for Online Computation Offloading in Wireless Powered Mobile-Edge Computing Networks", on [arxiv:1808.01977](https://arxiv.org/abs/1808.01977).
+
 
 ## About authors
 
 - Suzhi BI, bsz AT szu.edu.cn
 
 - Liang HUANG, lianghuang AT zjut.edu.cn
-
-- Shengli Zhang, zsl AT szu.edu.cn
 
 - Ying Jun (Angela) Zhang, yjzhang AT ie.cuhk.edu.hk
 
